@@ -1,10 +1,10 @@
-import './App.css';
+import "./App.css";
 
 // Components
-import Login from './components/account/Login';
+import Login from "./components/account/Login";
 function App() {
   return (
-    <div>
+    <div style={{ marginTop: 64 }}>
       <Login />
     </div>
   );

@@ -1,4 +1,6 @@
-import { Box, TextField, Button, styled, Typography } from "@mui/material";
+import { useState } from "react";
+
+import { Box, TextField, Button, styled, Typography, toggleButtonClasses } from "@mui/material";
 
 const Component = styled(Box)`
   width: 400px;
@@ -18,48 +20,85 @@ const Wrapper = styled(Box)`
   display: flex;
   flex: 1;
   flex-direction: column;
-  & > div, & > button, & > p {
+  & > div,
+  & > button,
+  & > p {
     margin-top: 20px;
   }
 `;
 
 const LoginButton = styled(Button)`
-text-transform: none;
-background: #F8641B;
-color: #fff;
-height: 48px;
-border-radius: 2px;
+  text-transform: none;
+  background: #f8641b;
+  color: #fff;
+  height: 48px;
+  border-radius: 2px;
 `;
 
-const SignButton= styled(Button)`
-text-transform: none;
-background: #fff;
-color: #2874f0;
-height: 48px;
-border-radius: 2px;
-box-shadow: 0 2px 4px 0 rgb(0 0 0/ 20%);
+const SignButton = styled(Button)`
+  text-transform: none;
+  background: #fff;
+  color: #2874f0;
+  height: 48px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0/ 20%);
 `;
 
 const Text = styled(Typography)`
-color: #878787;
-font-size: 16px;
-`
+  color: #878787;
+  font-size: 16px;
+`;
 
+const signupInitialValues = {
+  name: '',
+  username: '',
+  password: ''
+}
 
 const Login = () => {
   const imageURL =
     "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
+
+  const [account, toggleAccount] = useState("login");
+  const [signup, setSignup] = useState(signupInitialValues);
+
+  const toggleSignup = () =>{
+   account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
+  }
+
+  const onInputChange = (e) =>{
+   setSignup({...signup, [e.target.name]: e.target.value });
+  }
+
+  const signupUser = () =>{
+    
+  }
+
   return (
     <Component>
       <Box>
         <Image src={imageURL} alt="login" />
-        <Wrapper>
-          <TextField variant="standard" />
-          <TextField variant="standard" />
-          <LoginButton variant="contained">Login</LoginButton>
-           <Text style={{ textAlign: 'center'}}>OR</Text>
-          <SignButton>Create an account</SignButton>
-        </Wrapper>
+        {account === "login" ? (
+          <Wrapper>
+            <TextField variant="standard" label="Enter username" />
+            <TextField variant="standard" label="Enter password" />
+            <LoginButton variant="contained">Login</LoginButton>
+            <Text style={{ textAlign: "center" }}>OR</Text>
+            <SignButton onClick={() => toggleAccount()}>Create an account</SignButton>
+          </Wrapper>
+        ) : (
+          <Wrapper>
+            <TextField variant="standard" onChange={(e) =>onInputChange(e)} name="name" label="Enter Name" />
+            <TextField variant="standard" onChange={(e) =>onInputChange(e)} name="username" label="Enter Username" />
+            <TextField variant="standard" onChange={(e) =>onInputChange(e)} name="password" label="Enter Password" />
+e
+            <SignButton onClick={() => signupUser()}>Signup</SignButton>
+            <Text style={{ textAlign: "center" }}>OR</Text>
+            <LoginButton variant="contained" onClick={() => toggleSignup()}>
+              Already have an account
+            </LoginButton>
+          </Wrapper>
+        )}
       </Box>
     </Component>
   );
