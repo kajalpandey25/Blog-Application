@@ -4,6 +4,7 @@ import { Box, TextField, Button, styled, Typography } from "@mui/material";
 
 import { API } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
+import { useNavigate} from 'react-router-dom';
 
 const Component = styled(Box)`
   width: 400px;
@@ -71,7 +72,7 @@ const signupInitialValues = {
   password: "",
 };
 
-const Login = () => {
+const Login = ({  isUserAuthenticated }) => {
   const imageURL =
     "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
 
@@ -81,6 +82,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const { setAccount } = useContext(DataContext);
+const navigate = useNavigate();
 
   const toggleSignup = () => {
     account === "signup" ? toggleAccount("login") : toggleAccount("signup");
@@ -123,6 +125,10 @@ const Login = () => {
         username: response.data.username,
         name: response.data.name,
       });
+
+      isUserAuthenticated(true);
+
+      navigate('/');
     } else {
       setError("Something went wrong! please try again later");
     }
